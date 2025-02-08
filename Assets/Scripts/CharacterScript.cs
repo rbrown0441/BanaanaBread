@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -118,7 +119,15 @@ public class CharacterScript : MonoBehaviour
             if (health <= 0)
                 health = 0;
             else
+            {
+                //reduce vertical push force when character is jumping
+                //this prevents character from being launched even further vertically
+                if (isJumping)
+                    pushForce = new Vector2(pushForce.x, pushForce.y / 2);
+
                 body.AddForce(pushForce, ForceMode2D.Impulse);
+            }
+
             StartCoroutine(ShowDamage());
         }
     }
@@ -241,6 +250,14 @@ public class CharacterScript : MonoBehaviour
         }
         else
         {
+            if (isJumping)
+            {
+                //reduce horizontal velocity when no horizontal input
+                float bodyVelocityX = body.velocity.x - groundDecay;
+                if (bodyVelocityX < 0) bodyVelocityX = 0;
+                body.velocity = new Vector2(bodyVelocityX, body.velocity.y);
+            }
+
             PlayerAnimator.SetFloat("speed", 0.0f);
             walkingFX.Stop();
         }
@@ -322,12 +339,12 @@ public class CharacterScript : MonoBehaviour
         // int SZ = groundTiles.cellSize; 
 
         TileBase theTile = groundTiles.GetTile(tilePos);
-    
-      /*  while (theTile == null)
-        {
-            tilePos = Vector3Int.RoundToInt(tilePos - new Vector3 (0,groundTiles.cellSize.y,0));
-            theTile = groundTiles.GetTile(tilePos);
-        }*/
+
+        /*  while (theTile == null)
+          {
+              tilePos = Vector3Int.RoundToInt(tilePos - new Vector3 (0,groundTiles.cellSize.y,0));
+              theTile = groundTiles.GetTile(tilePos);
+          }*/
 
         if (tileTypes.Grasstiles.Contains(theTile))
             return "grass";
@@ -366,8 +383,6 @@ public class CharacterScript : MonoBehaviour
                 SoundFXManager.Instance.playSFXClip(LandingFX, transform, 1);
                 break;
         }
-
-
 
     }
 }
