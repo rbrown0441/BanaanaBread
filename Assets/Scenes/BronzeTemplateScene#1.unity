@@ -192,6 +192,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1141562794380341152, guid: adc0ebf42ddaf6e46bf291c7bc929c35, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1141562794380341152, guid: adc0ebf42ddaf6e46bf291c7bc929c35, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1535529869}
@@ -1266,6 +1270,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1535529869}
@@ -1486,6 +1494,10 @@ PrefabInstance:
       value: StationaryEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 6469551413145142447, guid: c7de917705f9c46449dda20c69ea5549, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6469551413145142447, guid: c7de917705f9c46449dda20c69ea5549, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1535529869}
@@ -1507,6 +1519,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
       propertyPath: player
       value: 
@@ -40088,6 +40104,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867671345655759918, guid: dc8cda5bf7803ec4499e3675ab1e818f, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1535529869}
@@ -40471,6 +40491,14 @@ PrefabInstance:
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: health
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: maxHealth
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
