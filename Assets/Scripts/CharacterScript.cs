@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using Unity.Mathematics;
@@ -28,6 +29,7 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpPower = 3.5f;//4.0f
+    [SerializeField] private float groundPoundPower = -8.0f;
     [SerializeField] private float groundDecay = 0.4f;//0.6f 
     [SerializeField] private float WallJumpPowerHeight = 0.5f;
     private float WallJumpPowerLength = 0.5f;
@@ -37,7 +39,7 @@ public class CharacterScript : MonoBehaviour
     //  [SerializeField] private float acceleration = 0.20f;//0.25f
 
     // level tools
-    [SerializeField] private Vector2 spawnPoint;
+    [SerializeField] public Vector2 spawnPoint;
     [SerializeField] private float floorBoxHeight;
     [SerializeField] private int maxHealth;
     [SerializeField] private int health;
@@ -61,6 +63,10 @@ public class CharacterScript : MonoBehaviour
     private bool pushed = false;
     private bool wallJumpReady = false;
     private bool isGrounded;
+
+    public bool IsAttacking { get; set; } = false;
+    public bool EnemyHit { get; set; } = false;
+
     [SerializeField] private int amountofJumps = 0;
     private float walkingOnStairsTime = 0;
     float CurrentWalljumpCd = 0;
@@ -148,6 +154,7 @@ public class CharacterScript : MonoBehaviour
     }
 
     // Handle horizontal movement (A and D or arrow keys)
+    //Handles attack as well - Khitty
     void CheckInput()
     {
         /* horizontalInput = Input.GetAxis("Horizontal");
@@ -167,7 +174,39 @@ public class CharacterScript : MonoBehaviour
 
         }
         else
+        {
             horizontalInput = 0;
+        }
+
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            if((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
+        }
+
+        
+    }
+
+    private IEnumerator GroundPound()
+    {
+        IsAttacking = true;
+
+        body.velocity = new Vector2(body.velocity.x, groundPoundPower);
+
+        yield return new WaitUntil(() => isGrounded || EnemyHit);
+
+        if (EnemyHit)
+        {
+            body.velocity = new Vector2(body.velocity.x, -groundPoundPower/2);
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        EnemyHit = false;
+        IsAttacking = false;
+    }
+
+    void OnCollisionEnter2D(Collision2D collider)
+    {
+        if (collider.gameObject.tag.ToLower() == "enemy" && IsAttacking) EnemyHit = true;  
     }
 
     // Handle Jump and double jump
