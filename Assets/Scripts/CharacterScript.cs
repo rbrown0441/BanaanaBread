@@ -21,6 +21,7 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private GameObject TopCheckRay;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
+    
     //[SerializeField] private GameObject GroundCheckPoint;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private float rayDist = 0.4f;
@@ -43,6 +44,7 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private float floorBoxHeight;
     [SerializeField] private int maxHealth;
     [SerializeField] private int health;
+    [SerializeField] private HealthBarUI healthUI;
     [SerializeField] TileTypes tileTypes;
     GameObject ground;
     GameObject GridObject;
@@ -112,6 +114,7 @@ public class CharacterScript : MonoBehaviour
     void Die()
     {
         health = maxHealth;
+        healthUI.ResetHealth();
         transform.position = spawnPoint;
     }
 
@@ -133,7 +136,6 @@ public class CharacterScript : MonoBehaviour
 
                 body.AddForce(pushForce, ForceMode2D.Impulse);
             }
-
             StartCoroutine(ShowDamage());
         }
     }
@@ -148,6 +150,8 @@ public class CharacterScript : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         sprite.color = Color.white;
         inInvincibleFrames = false;
+        healthUI.TakeDamage(health);
+
         // Kill player if they lose all their health
         if (health == 0)
             Die();
