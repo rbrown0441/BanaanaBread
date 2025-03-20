@@ -150,7 +150,7 @@ public class CharacterScript : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         sprite.color = Color.white;
         inInvincibleFrames = false;
-        healthUI.TakeDamage(health);
+        healthUI.TakeDamage();
 
         // Kill player if they lose all their health
         if (health == 0)

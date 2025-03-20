@@ -21,25 +21,33 @@ public class HealthBarUI : MonoBehaviour
     //     float newWidth = (health / maxHealth) * width;
     //     fillbar.sizeDelta = new Vector2(newWidth, height);
     // }
-    public Image[] healthFruits; 
+    public Image healthImage; 
+    public Sprite[] healthSprites;
+     private int currentHealth;
     void Start()
     {
+        currentHealth = healthSprites.Length - 1;
         ResetHealth();
     }
 
-    public void TakeDamage(int health)
+    public void TakeDamage()
     {
-        if (health >= 0)
+        if (currentHealth > 0)
         {
-            healthFruits[health].enabled = false; // Hide the last active fruit
+            currentHealth--; 
+            UpdateHealth();
         }
     }
-    public void ResetHealth()
+    public void UpdateHealth()
     {
-        // Enable all fruit icons
-        for(int i = 0; i < 5; i ++)
+        if (currentHealth >= 0 && currentHealth < healthSprites.Length)
         {
-            healthFruits[i].enabled = true;
+            healthImage.sprite = healthSprites[currentHealth]; 
         }
+    }
+
+    public void ResetHealth(){
+        healthImage.sprite = healthSprites[0];
+        currentHealth = healthSprites.Length - 1;
     }
 }
