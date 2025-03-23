@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Tilemaps;
 
 public class CharacterScript : MonoBehaviour
@@ -35,9 +36,9 @@ public class CharacterScript : MonoBehaviour
     // level tools
     [SerializeField] public Vector2 spawnPoint;
     [SerializeField] private float floorBoxHeight;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int health;
-    [SerializeField] private HealthBarUI healthUI;
+    [SerializeField] public int maxHealth;
+    [SerializeField] public int health;
+
     [SerializeField] TileTypes tileTypes;
     GameObject ground;
     GameObject GridObject;
@@ -67,7 +68,9 @@ public class CharacterScript : MonoBehaviour
     float CurrentWalljumpCd = 0;
     float WalljumpCd = 0.3f;
 
-
+    [SerializeField] private UnityIntEvent OnHurt;
+    [SerializeField] private UnityEvent OnDeath;
+    
     private void Start()
     {
         walkingFX = GetComponent<AudioSource>();
@@ -76,6 +79,7 @@ public class CharacterScript : MonoBehaviour
         GridObject = GameObject.FindWithTag("Grid");
         grid = GridObject.GetComponent<Grid>();
     }
+    
     // Runs every frame
     void Update()
     {
@@ -85,19 +89,15 @@ public class CharacterScript : MonoBehaviour
             WallJump();
         else
             Jump();
-
-
-
     }
 
     // Runs every frame (physics) 
     void FixedUpdate()
     {
-
         CheckGrounded();
         Movement();
-
         ApplyFriction();
+        
         //Kills player if they fall in hole
         if (transform.position.y < floorBoxHeight)
             Die();
@@ -107,8 +107,10 @@ public class CharacterScript : MonoBehaviour
     void Die()
     {
         health = maxHealth;
-        healthUI.ResetHealth();
+        
         transform.position = spawnPoint;
+        
+        OnDeath.Invoke();
     }
 
     // Handles player taking damage
@@ -130,6 +132,8 @@ public class CharacterScript : MonoBehaviour
                 body.AddForce(pushForce, ForceMode2D.Impulse);
             }
             StartCoroutine(ShowDamage());
+            
+            OnHurt.Invoke(damage);
         }
     }
 
@@ -143,7 +147,6 @@ public class CharacterScript : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         sprite.color = Color.white;
         inInvincibleFrames = false;
-        healthUI.TakeDamage();
 
         // Kill player if they lose all their health
         if (health == 0)
@@ -422,3 +425,7 @@ public class CharacterScript : MonoBehaviour
 
     }
 }
+
+
+[System.Serializable]
+public class UnityIntEvent : UnityEvent<int> { }

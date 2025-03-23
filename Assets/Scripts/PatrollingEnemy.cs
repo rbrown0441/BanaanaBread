@@ -24,7 +24,8 @@ public class PatrollingEnemy : MonoBehaviour
     private float targetPoint;
 
     void Start() {
-        playerScript = player.GetComponent<CharacterScript>();
+        
+        playerScript = FindFirstObjectByType<CharacterScript>();
         targetPoint = pointA;
     }
 
