@@ -15,6 +15,7 @@ public class ChaserEnemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private int damage;
     [SerializeField] private float pushStrength;
+    [SerializeField] private int health;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator animator;
     private CharacterScript playerScript;
@@ -44,6 +45,7 @@ public class ChaserEnemy : MonoBehaviour
     
     void Update()
     {
+
      //   CheckonStairs();
         if ((Vector2.Distance(transform.position, player.transform.position) <= attackRange) && (!attacking))
         {
@@ -109,11 +111,13 @@ public class ChaserEnemy : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collider)
     {
-        DamagePlayer(collider.gameObject);
+        Debug.Log($"Getting Attacked: {playerScript.IsAttacking}");
+        if (collider.gameObject == player && playerScript.IsAttacking) StartCoroutine(TakeDamage());
+        else DamagePlayer(collider.gameObject);
     }
     void OnCollisionStay2D(Collision2D collider)
     {
-        DamagePlayer(collider.gameObject);
+        if (collider.gameObject == player && !playerScript.IsAttacking) DamagePlayer(collider.gameObject);
     }
     void DamagePlayer(GameObject gameObject)
     {
@@ -123,6 +127,23 @@ public class ChaserEnemy : MonoBehaviour
             pushDirection.Normalize();
             playerScript.Hurt(damage, pushDirection * pushStrength);
         }
+    }
+
+    private IEnumerator TakeDamage()
+    {
+        var renderer = GetComponent<SpriteRenderer>();
+        Color originalColor = renderer.color;
+
+        renderer.color = Color.red;
+
+        yield return new WaitForSeconds(0.15f);
+
+        renderer.color = originalColor;
+
+        yield return new WaitForSeconds(0.1f);
+
+        health -= 1;
+        if (health < 1) Destroy(gameObject);
     }
 
     public void EndAttack()
