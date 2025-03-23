@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -19,6 +21,7 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private GameObject TopCheckRay;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
+    
     //[SerializeField] private GameObject GroundCheckPoint;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private float rayDist = 0.4f;
@@ -27,6 +30,7 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpPower = 3.5f;//4.0f
+    [SerializeField] private float groundPoundPower = -8.0f;
     [SerializeField] private float groundDecay = 0.4f;//0.6f 
     [SerializeField] private float WallJumpPowerHeight = 0.5f;
     private float WallJumpPowerLength = 0.5f;
@@ -36,10 +40,11 @@ public class CharacterScript : MonoBehaviour
     //  [SerializeField] private float acceleration = 0.20f;//0.25f
 
     // level tools
-    [SerializeField] private Vector2 spawnPoint;
+    [SerializeField] public Vector2 spawnPoint;
     [SerializeField] private float floorBoxHeight;
     [SerializeField] private int maxHealth;
     [SerializeField] private int health;
+    [SerializeField] private HealthBarUI healthUI;
     [SerializeField] TileTypes tileTypes;
     GameObject ground;
     GameObject GridObject;
@@ -60,6 +65,10 @@ public class CharacterScript : MonoBehaviour
     private bool pushed = false;
     private bool wallJumpReady = false;
     private bool isGrounded;
+
+    public bool IsAttacking { get; set; } = false;
+    public bool EnemyHit { get; set; } = false;
+
     [SerializeField] private int amountofJumps = 0;
     private float walkingOnStairsTime = 0;
     float CurrentWalljumpCd = 0;
@@ -105,6 +114,7 @@ public class CharacterScript : MonoBehaviour
     void Die()
     {
         health = maxHealth;
+        healthUI.ResetHealth();
         transform.position = spawnPoint;
     }
 
@@ -118,7 +128,14 @@ public class CharacterScript : MonoBehaviour
             if (health <= 0)
                 health = 0;
             else
+            {
+                //reduce vertical push force when character is jumping
+                //this prevents character from being launched even further vertically
+                if (isJumping)
+                    pushForce = new Vector2(pushForce.x, pushForce.y / 2);
+
                 body.AddForce(pushForce, ForceMode2D.Impulse);
+            }
             StartCoroutine(ShowDamage());
         }
     }
@@ -133,12 +150,15 @@ public class CharacterScript : MonoBehaviour
         yield return new WaitForSeconds(0.6f);
         sprite.color = Color.white;
         inInvincibleFrames = false;
+        healthUI.TakeDamage();
+
         // Kill player if they lose all their health
         if (health == 0)
             Die();
     }
 
     // Handle horizontal movement (A and D or arrow keys)
+    //Handles attack as well - Khitty
     void CheckInput()
     {
         /* horizontalInput = Input.GetAxis("Horizontal");
@@ -158,7 +178,39 @@ public class CharacterScript : MonoBehaviour
 
         }
         else
+        {
             horizontalInput = 0;
+        }
+
+        if(Input.GetKey(KeyCode.DownArrow))
+        {
+            if((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
+        }
+
+        
+    }
+
+    private IEnumerator GroundPound()
+    {
+        IsAttacking = true;
+
+        body.velocity = new Vector2(body.velocity.x, groundPoundPower);
+
+        yield return new WaitUntil(() => isGrounded || EnemyHit);
+
+        if (EnemyHit)
+        {
+            body.velocity = new Vector2(body.velocity.x, -groundPoundPower/2);
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        EnemyHit = false;
+        IsAttacking = false;
+    }
+
+    void OnCollisionEnter2D(Collision2D collider)
+    {
+        if (collider.gameObject.tag.ToLower() == "enemy" && IsAttacking) EnemyHit = true;  
     }
 
     // Handle Jump and double jump
@@ -241,6 +293,14 @@ public class CharacterScript : MonoBehaviour
         }
         else
         {
+            if (isJumping)
+            {
+                //reduce horizontal velocity when no horizontal input
+                float bodyVelocityX = body.velocity.x - groundDecay;
+                if (bodyVelocityX < 0) bodyVelocityX = 0;
+                body.velocity = new Vector2(bodyVelocityX, body.velocity.y);
+            }
+
             PlayerAnimator.SetFloat("speed", 0.0f);
             walkingFX.Stop();
         }
@@ -322,12 +382,12 @@ public class CharacterScript : MonoBehaviour
         // int SZ = groundTiles.cellSize; 
 
         TileBase theTile = groundTiles.GetTile(tilePos);
-    
-      /*  while (theTile == null)
-        {
-            tilePos = Vector3Int.RoundToInt(tilePos - new Vector3 (0,groundTiles.cellSize.y,0));
-            theTile = groundTiles.GetTile(tilePos);
-        }*/
+
+        /*  while (theTile == null)
+          {
+              tilePos = Vector3Int.RoundToInt(tilePos - new Vector3 (0,groundTiles.cellSize.y,0));
+              theTile = groundTiles.GetTile(tilePos);
+          }*/
 
         if (tileTypes.Grasstiles.Contains(theTile))
             return "grass";
@@ -366,8 +426,6 @@ public class CharacterScript : MonoBehaviour
                 SoundFXManager.Instance.playSFXClip(LandingFX, transform, 1);
                 break;
         }
-
-
 
     }
 }
