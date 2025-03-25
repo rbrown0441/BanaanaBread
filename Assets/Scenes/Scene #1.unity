@@ -2604,7 +2604,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 221962359, guid: 11b9a0981f91f0b40afb8d2f7fb12b8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.35, y: 1.18}
@@ -2622,7 +2622,7 @@ Transform:
   m_GameObject: {fileID: 1688088552}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.25, y: -2.21, z: 0}
+  m_LocalPosition: {x: -3.66, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -3369,18 +3369,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1870333485093208195, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1870333485093208195, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
-      propertyPath: m_TagString
-      value: Ground
-      objectReference: {fileID: 0}
-    - target: {fileID: 8677292278066023810, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
-      propertyPath: m_Layer
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: -5812229664213899653, guid: 0d711c1191d56114681a51bd45091b30, type: 3}
       propertyPath: m_Name
       value: Scene_1
@@ -3436,6 +3424,22 @@ PrefabInstance:
     - target: {fileID: 3180795725890142223, guid: 0d711c1191d56114681a51bd45091b30, type: 3}
       propertyPath: m_TagString
       value: Grid
+      objectReference: {fileID: 0}
+    - target: {fileID: 3464036210517794699, guid: 0d711c1191d56114681a51bd45091b30, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1870333485093208195, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1870333485093208195, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 8677292278066023810, guid: a76d149e4a2db1c4e94b43f90ddd2bf4, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3826,11 +3830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.965
+      value: -2.7
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.818
+      value: -0.38
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.z
