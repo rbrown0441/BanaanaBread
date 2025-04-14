@@ -71,6 +71,7 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private UnityIntEvent OnHurt;
     [SerializeField] private UnityEvent OnDeath;
+    [SerializeField] private UnityEvent OnGameOver;
     
     private void Start()
     {
@@ -110,6 +111,9 @@ public class CharacterScript : MonoBehaviour
         health = maxHealth;
         transform.position = spawnPoint;
         lives -= 1;
+        if (lives <= 0){
+            OnGameOver.Invoke();
+        }
         OnDeath.Invoke();
     }
 
