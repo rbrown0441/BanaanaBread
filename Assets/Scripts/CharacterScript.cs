@@ -38,7 +38,8 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private float floorBoxHeight;
     [SerializeField] public int maxHealth;
     [SerializeField] public int health;
-
+    [SerializeField] public int maxLives;
+    [SerializeField] public int lives;
     [SerializeField] TileTypes tileTypes;
     GameObject ground;
     GameObject GridObject;
@@ -70,6 +71,7 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private UnityIntEvent OnHurt;
     [SerializeField] private UnityEvent OnDeath;
+    [SerializeField] private UnityEvent OnGameOver;
     
     private void Start()
     {
@@ -107,9 +109,11 @@ public class CharacterScript : MonoBehaviour
     void Die()
     {
         health = maxHealth;
-        
         transform.position = spawnPoint;
-        
+        lives -= 1;
+        if (lives <= 0){
+            OnGameOver.Invoke();
+        }
         OnDeath.Invoke();
     }
 
