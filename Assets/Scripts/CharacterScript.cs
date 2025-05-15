@@ -290,8 +290,8 @@ public class CharacterScript : MonoBehaviour
             PlayerAnimator.SetFloat("inputMagnitude", Mathf.Abs(currentSpeed));
             // body.velocity = new Vector2(newSpeed, body.velocity.y);
             float direction = Mathf.Sign(horizontalInput);
-            body.velocity = new Vector2(currentSpeed * direction, body.velocity.y);
 
+            body.velocity = new Vector2(currentSpeed * direction, body.velocity.y);
             if ((isGrounded) || (walkingOnStairsTime > 0))
             {
                 makeSteppingSound(whatAmISteppingOn());
@@ -301,9 +301,7 @@ public class CharacterScript : MonoBehaviour
             }
 
             CheckForWalljump(direction);
-            //transform.localScale = new Vector3(direction, 1, 1);
-            PlayerAnimator.SetFloat("direction", direction);
-
+            transform.localScale = new Vector3(direction, 1, 1);
             if ((walkingFX.isPlaying) && (isJumping))
                 walkingFX.Stop();
         }
