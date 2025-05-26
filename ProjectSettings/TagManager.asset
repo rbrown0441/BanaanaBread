@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Grid
+  - FollowCamera
   layers:
   - Default
   - TransparentFX

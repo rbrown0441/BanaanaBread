@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -70,7 +71,15 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private UnityIntEvent OnHurt;
     [SerializeField] private UnityEvent OnDeath;
-    
+
+    private CinemachineFramingTransposer transposer { get; set; }
+    public GameObject PlayerFacingDirectionTargetGO;
+    private PlayerFacingDirectionTarget playerFacingDirectionTarget;
+    public bool IsFacingRight { get; set; } = true;
+    public bool IsLookingUp { get; set; } = false;
+    public bool IsLookingDown { get; set; } = false;
+    public bool IsMoving { get; set; } = false;
+
     private void Start()
     {
         walkingFX = GetComponent<AudioSource>();
@@ -78,6 +87,10 @@ public class CharacterScript : MonoBehaviour
         ground = GameObject.FindWithTag("Ground");
         GridObject = GameObject.FindWithTag("Grid");
         grid = GridObject.GetComponent<Grid>();
+
+        var followCamera = GameObject.FindWithTag("FollowCamera");
+        transposer = followCamera.GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>();
+        playerFacingDirectionTarget = PlayerFacingDirectionTargetGO.GetComponent<PlayerFacingDirectionTarget>();
     }
     
     // Runs every frame
@@ -165,12 +178,19 @@ public class CharacterScript : MonoBehaviour
         if ((Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.LeftArrow)))
         {
             horizontalInput = -1f;
+            IsFacingRight = false;
+
+            //turn camera to follow object
+            playerFacingDirectionTarget.Turn();
 
         }
         else if ((Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.RightArrow)))
         {
             horizontalInput = 1f;
+            IsFacingRight = true;
 
+            //turn camera to follow object
+            playerFacingDirectionTarget.Turn();
 
         }
         else
@@ -178,12 +198,12 @@ public class CharacterScript : MonoBehaviour
             horizontalInput = 0;
         }
 
-        if(Input.GetKey(KeyCode.DownArrow))
-        {
-            if((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
-        }
+        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && ((!isGrounded || EnemyHit) && !IsAttacking)) StartCoroutine(GroundPound());
 
-        
+        IsLookingDown = Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S);
+        IsLookingUp = Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W);
+        if (isGrounded && (IsLookingUp || IsLookingDown)) playerFacingDirectionTarget.Look();
+
     }
 
     private IEnumerator GroundPound()
@@ -218,7 +238,7 @@ public class CharacterScript : MonoBehaviour
             isJumping = false;
             makeLandingSound(whatAmISteppingOn());
         }
-        else if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && (amountofJumps > 0))
+        else if ((Input.GetButtonDown("Jump")) && (amountofJumps > 0))
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             PlayerAnimator.SetTrigger("StartJump");
@@ -245,7 +265,7 @@ public class CharacterScript : MonoBehaviour
             PlayerAnimator.SetBool("isJumping", false);
             isJumping = false;
         }
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && wallJumpReady)
+        if ((Input.GetButtonDown("Jump")) && wallJumpReady)
         {
             float dir;
             if (transform.localScale.x < 0)
@@ -284,6 +304,7 @@ public class CharacterScript : MonoBehaviour
 
             CheckForWalljump(direction);
             transform.localScale = new Vector3(direction, 1, 1);
+
             if ((walkingFX.isPlaying) && (isJumping))
                 walkingFX.Stop();
         }
@@ -301,7 +322,8 @@ public class CharacterScript : MonoBehaviour
             walkingFX.Stop();
         }
 
-
+        if ((body.velocity.x - groundDecay) > 0) IsMoving = true;
+        else IsMoving = false;
 
     }
 
