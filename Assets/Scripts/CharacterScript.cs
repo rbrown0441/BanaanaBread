@@ -22,7 +22,11 @@ public class CharacterScript : MonoBehaviour
 
     // These values need to be played with to have desired movement feel
 
-    [SerializeField] private float speed = 3f;
+    [SerializeField] private float baseSpeed = 3f;
+    [SerializeField] private float currentSpeed;
+    [SerializeField] private float sprint = 1f;
+
+
     [SerializeField] private float jumpPower = 3.5f;//4.0f
     [SerializeField] private float groundPoundPower = -8.0f;
     [SerializeField] private float groundDecay = 0.4f;//0.6f 
@@ -38,7 +42,8 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private float floorBoxHeight;
     [SerializeField] public int maxHealth;
     [SerializeField] public int health;
-
+    [SerializeField] public int maxLives;
+    [SerializeField] public int lives;
     [SerializeField] TileTypes tileTypes;
     GameObject ground;
     GameObject GridObject;
@@ -70,6 +75,7 @@ public class CharacterScript : MonoBehaviour
 
     [SerializeField] private UnityIntEvent OnHurt;
     [SerializeField] private UnityEvent OnDeath;
+    [SerializeField] private UnityEvent OnGameOver;
     
     private void Start()
     {
@@ -107,9 +113,11 @@ public class CharacterScript : MonoBehaviour
     void Die()
     {
         health = maxHealth;
-        
         transform.position = spawnPoint;
-        
+        lives -= 1;
+        if (lives <= 0){
+            OnGameOver.Invoke();
+        }
         OnDeath.Invoke();
     }
 
@@ -181,6 +189,15 @@ public class CharacterScript : MonoBehaviour
         if(Input.GetKey(KeyCode.DownArrow))
         {
             if((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed = baseSpeed + sprint;
+        }
+        else
+        {
+            currentSpeed = baseSpeed;
         }
 
         
@@ -270,10 +287,11 @@ public class CharacterScript : MonoBehaviour
             //   float inc = horizontalInput * acceleration;
             //   float newSpeed = Mathf.Clamp(body.velocity.x + inc, -speed, speed);
             PlayerAnimator.SetFloat("speed", Mathf.Abs(horizontalInput));
+            PlayerAnimator.SetFloat("inputMagnitude", Mathf.Abs(currentSpeed));
             // body.velocity = new Vector2(newSpeed, body.velocity.y);
             float direction = Mathf.Sign(horizontalInput);
 
-            body.velocity = new Vector2(speed * direction, body.velocity.y);
+            body.velocity = new Vector2(currentSpeed * direction, body.velocity.y);
             if ((isGrounded) || (walkingOnStairsTime > 0))
             {
                 makeSteppingSound(whatAmISteppingOn());
@@ -296,7 +314,7 @@ public class CharacterScript : MonoBehaviour
                 if (bodyVelocityX < 0) bodyVelocityX = 0;
                 body.velocity = new Vector2(bodyVelocityX, body.velocity.y);
             }
-
+            PlayerAnimator.SetFloat("inputMagnitude", 0.0f);
             PlayerAnimator.SetFloat("speed", 0.0f);
             walkingFX.Stop();
         }
