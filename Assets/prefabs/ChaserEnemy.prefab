@@ -257,8 +257,9 @@ MonoBehaviour:
   sightRadius: 3
   attackRange: 0.4
   speed: 0.75
-  damage: 10
+  damage: 1
   pushStrength: 5
+  health: 0
   player: {fileID: 0}
   animator: {fileID: 8071217604818069524}
   attackArea: {fileID: 345072864029329615}

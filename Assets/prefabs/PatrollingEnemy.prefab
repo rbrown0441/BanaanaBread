@@ -102,7 +102,7 @@ MonoBehaviour:
   pointA: 32
   pointB: 34
   speed: 1
-  damage: 20
+  damage: 1
   pushStrength: 5
   player: {fileID: 0}
 --- !u!50 &6893072164260054719
