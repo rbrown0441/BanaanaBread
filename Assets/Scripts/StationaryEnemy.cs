@@ -20,19 +20,43 @@ public class StationaryEnemy : MonoBehaviour
     void Start() {
         playerScript = player.GetComponent<CharacterScript>();
     }
-
+    void OnCollisionStay2D(Collision2D collider) {
+        //DamagePlayer(collider);
+    }
+    
     // Handle damaging player    
     void OnCollisionEnter2D(Collision2D collider) {
-        DamagePlayer(collider);
+        Debug.Log($"Getting Attacked: {playerScript.IsAttacking}");
+        if (collider.gameObject == player && playerScript.IsAttacking) StartCoroutine(TakeDamage());
+        else DamagePlayer(collider.gameObject);
     }
-    void OnCollisionStay2D(Collision2D collider) {
-        DamagePlayer(collider);
-    }
-    void DamagePlayer(Collision2D collider) {
-        if (collider.gameObject == player) {
-            Vector2 pushDirection = collider.transform.position - transform.position;
+    
+    void DamagePlayer(GameObject gameObject)
+    {
+        if (gameObject == player)
+        {
+            Vector2 pushDirection = gameObject.transform.position - transform.position;
             pushDirection.Normalize();
             playerScript.Hurt(damage, pushDirection * pushStrength);
         }
+    }
+    
+    [SerializeField] private int health;
+
+    private IEnumerator TakeDamage()
+    {
+        var renderer = GetComponent<SpriteRenderer>();
+        Color originalColor = renderer.color;
+
+        renderer.color = Color.red;
+
+        yield return new WaitForSeconds(0.15f);
+
+        renderer.color = originalColor;
+
+        yield return new WaitForSeconds(0.1f);
+
+        health -= 1;
+        if (health < 1) Destroy(gameObject);
     }
 }
