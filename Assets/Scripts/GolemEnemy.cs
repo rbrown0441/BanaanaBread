@@ -23,12 +23,14 @@ public class GolemEnemy : MonoBehaviour
     private bool returning;
     [SerializeField] GameObject attackArea;
     [SerializeField] private bool attacking = false;
+    [SerializeField] private bool isDead = false;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
     [SerializeField] private GameObject TopCheckRay;
     [SerializeField] private float rayDist = 0.4f;
     [SerializeField] private LayerMask groundLayer;
     float dirction = 0.4f;
+    // [SerializeField] private float randomAttack = 0;
     float originalScale;
     [SerializeField] private float walkingOnStairsTime = 0;
     // private bool attackFrames = false;
@@ -46,12 +48,15 @@ public class GolemEnemy : MonoBehaviour
     void Update()
     {
 
-     //   CheckonStairs();
+        //   CheckonStairs();
         if ((Vector2.Distance(transform.position, player.transform.position) <= attackRange) && (!attacking))
         {
-            
+
             attacking = true;
             animator.SetBool("Attacking", true);
+            // randomAttack = Random.Range(0, 1);
+            // if (randomAttack == 0) animator.SetBool("Attacking", true);
+            // else if (randomAttack == 1) animator.SetBool("Attacking1", true);
 
         }
 
@@ -125,6 +130,7 @@ public class GolemEnemy : MonoBehaviour
     }
     void DamagePlayer(GameObject gameObject)
     {
+        if (isDead) return;
         if (gameObject == player)
         {
             Vector2 pushDirection = gameObject.transform.position - transform.position;
@@ -147,13 +153,31 @@ public class GolemEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         health -= 1;
-        if (health < 1) Destroy(gameObject);
+        
+        if (health < 1) Die();
+    }
+
+    void Die()
+    {
+        isDead = true;
+        animator.SetTrigger("Death");
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        collider.size = new Vector2(1.4f, 0.4f);     // Width, Height
+        collider.offset = new Vector2(0f, -0.8f);
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0f;
+        this.enabled = false; // Disables this script
+        
     }
 
     public void EndAttack()
     {
         attacking = false;
         animator.SetBool("Attacking", false);
+        // if (randomAttack == 0) animator.SetBool("Attacking", false);
+        // else if (randomAttack == 1) animator.SetBool("Attacking1", false);
     }
 
     public void AttackWindowOpen()
