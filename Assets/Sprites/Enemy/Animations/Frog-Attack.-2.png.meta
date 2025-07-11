@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Sprites/Enemy/Animations/Frog-Attack.-2.png.meta
 guid: 8c96874519f13fd47b2be4dcdf8b1163
+=======
+guid: 00ff1570034350248876d1586a371356
+>>>>>>> Stashed changes:Assets/Sprites/Character/Animations/Frog-Attack.-2.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
