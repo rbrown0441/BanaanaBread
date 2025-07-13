@@ -18,6 +18,7 @@ public class GolemEnemy : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator animator;
+    private SpriteRenderer spriteRenderer; // for fade
     private CharacterScript playerScript;
     private bool chasing;
     private bool returning;
@@ -27,6 +28,7 @@ public class GolemEnemy : MonoBehaviour
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
     [SerializeField] private GameObject TopCheckRay;
+    [SerializeField] public GameObject Crystal;
     [SerializeField] private float rayDist = 0.4f;
     [SerializeField] private LayerMask groundLayer;
     float dirction = 0.4f;
@@ -43,6 +45,7 @@ public class GolemEnemy : MonoBehaviour
         playerScript = player.GetComponent<CharacterScript>();
         attackArea.SetActive(false);
         originalScale = transform.localScale.x;
+        spriteRenderer = GetComponent<SpriteRenderer>(); // for fade
     }
     
     void Update()
@@ -150,26 +153,48 @@ public class GolemEnemy : MonoBehaviour
 
         renderer.color = originalColor;
 
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
 
         health -= 1;
         
-        if (health < 1) Die();
+        if (health < 1) StartCoroutine(Die());
     }
 
-    void Die()
+    IEnumerator Die()
     {
         isDead = true;
         animator.SetTrigger("Death");
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
-        collider.size = new Vector2(1.4f, 0.4f);     // Width, Height
-        collider.offset = new Vector2(0f, -0.8f);
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.bodyType = RigidbodyType2D.Kinematic;
-        rb.velocity = Vector2.zero;
-        rb.angularVelocity = 0f;
-        this.enabled = false; // Disables this script
+        // BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        // collider.size = new Vector2(1.4f, 0.4f);     // Width, Height
+        // collider.offset = new Vector2(0f, -0.8f);
+        // Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        // rb.bodyType = RigidbodyType2D.Kinematic;
+        // rb.velocity = Vector2.zero;
+        // rb.angularVelocity = 0f;
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length + 0.2f); //no fade
+
+        yield return StartCoroutine(FadeOut(1.5f)); // fade out over 1.5 seconds 
         
+        Instantiate(Crystal, transform.position, Crystal.transform.rotation);
+        Destroy(gameObject);
+        
+    }
+     IEnumerator FadeOut(float duration)
+    {
+        float startAlpha = spriteRenderer.color.a;
+        float rate = 1.0f / duration;
+        float progress = 0f;
+
+        while (progress < 1.0f)
+        {
+            Color tmpColor = spriteRenderer.color;
+            spriteRenderer.color = new Color(tmpColor.r, tmpColor.g, tmpColor.b, Mathf.Lerp(startAlpha, 0, progress));
+            progress += rate * Time.deltaTime;
+            yield return null;
+        }
+
+        // Final alpha set to 0
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);
     }
 
     public void EndAttack()

@@ -301,9 +301,11 @@ MonoBehaviour:
   animator: {fileID: 7323043072395320276}
   attackArea: {fileID: 8912958867698488210}
   attacking: 0
+  isDead: 0
   MidCheckRay: {fileID: 3164689439359187496}
   BottomRay: {fileID: 184913520928912799}
   TopCheckRay: {fileID: 7519590081506322959}
+  Crystal: {fileID: 6223631660565979193, guid: 92fceef5d80b942489e5b6e6bfd1748e, type: 3}
   rayDist: 0.1
   groundLayer:
     serializedVersion: 2

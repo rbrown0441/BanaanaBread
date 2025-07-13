@@ -74,6 +74,7 @@ public class CharacterScript : MonoBehaviour
     float WalljumpCd = 0.3f;
 
     [SerializeField] private UnityIntEvent OnHurt;
+    [SerializeField] private UnityIntEvent OnHeal;
     [SerializeField] private UnityEvent OnDeath;
     [SerializeField] private UnityEvent OnGameOver;
     
@@ -89,6 +90,7 @@ public class CharacterScript : MonoBehaviour
     // Runs every frame
     void Update()
     {
+        
         CheckInput();
         CheckonStairs();
         if (wallJumpReady)
@@ -143,6 +145,16 @@ public class CharacterScript : MonoBehaviour
             
             OnHurt.Invoke(damage);
         }
+    }
+
+    public void Heal(int amount)
+    {
+        if (health != maxHealth)
+        {
+            health += amount;
+            OnHeal.Invoke(amount);
+        }
+        
     }
 
     // Makes player red for a moment and gives inviniciblity frames
