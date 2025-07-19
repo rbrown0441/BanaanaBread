@@ -305,7 +305,7 @@ MonoBehaviour:
   MidCheckRay: {fileID: 3164689439359187496}
   BottomRay: {fileID: 184913520928912799}
   TopCheckRay: {fileID: 7519590081506322959}
-  Crystal: {fileID: 6223631660565979193, guid: 92fceef5d80b942489e5b6e6bfd1748e, type: 3}
+  Crystal: {fileID: 7242223242401039946, guid: 2a9930d8deedcfe4fb726a2a29996da6, type: 3}
   rayDist: 0.1
   groundLayer:
     serializedVersion: 2
