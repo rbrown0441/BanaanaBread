@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Sprites/Enemy/Animations/Venusflytrap_Walking1.png.meta
 guid: b9071764c3fc195409f569ecfb4f53ed
+=======
+guid: fec82f595f499b24db06478612d5909a
+>>>>>>> Stashed changes:Assets/Sprites/Character/Animations/Venusflytrap_Walking1.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

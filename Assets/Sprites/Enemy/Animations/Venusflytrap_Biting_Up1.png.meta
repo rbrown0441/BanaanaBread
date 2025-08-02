@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Sprites/Enemy/Animations/Venusflytrap_Biting_Up1.png.meta
 guid: dc71b2599d1924d4780bf36d7589b4de
+=======
+guid: bd64a64145b80f04890442956f2d0c99
+>>>>>>> Stashed changes:Assets/Sprites/Character/Animations/Venusflytrap_Biting_Up1.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}

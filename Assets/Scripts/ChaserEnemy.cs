@@ -118,7 +118,7 @@ public class ChaserEnemy : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D collider)
     {
-        if (collider.gameObject == player && !playerScript.IsAttacking) DamagePlayer(collider.gameObject);
+        //if (collider.gameObject == player && !playerScript.IsAttacking) DamagePlayer(collider.gameObject);
     }
     void DamagePlayer(GameObject gameObject)
     {

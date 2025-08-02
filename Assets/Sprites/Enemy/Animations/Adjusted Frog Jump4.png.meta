@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Sprites/Enemy/Animations/Adjusted Frog Jump4.png.meta
 guid: 8f7af917ce8ee4e4898466cee9a4cb06
+=======
+guid: 4ca678be86847dd4aac041171dc0d26c
+>>>>>>> Stashed changes:Assets/Sprites/Character/Animations/Adjusted Frog Jump4.png.meta
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
