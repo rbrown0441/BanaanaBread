@@ -67,8 +67,7 @@ MonoBehaviour:
   TopCheckRay: {fileID: 5746072677724803781}
   MidCheckRay: {fileID: 5276138627336379664}
   BottomRay: {fileID: 7140635255135387672}
-  GroundCheckPoint: {fileID: 5374383522855374481}
-  sprite: {fileID: 555558006506437110}
+  sprite: {fileID: 0}
   rayDist: 0.4
   speed: 3
   jumpPower: 4
