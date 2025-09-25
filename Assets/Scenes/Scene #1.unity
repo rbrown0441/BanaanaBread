@@ -245,7 +245,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &103134466
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &216938219
@@ -1462,7 +1462,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0.91744995, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1554125242
@@ -2110,7 +2110,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1802027878
@@ -2521,7 +2521,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2071920838
@@ -3174,6 +3174,22 @@ PrefabInstance:
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: sprintAction.m_Name
+      value: Sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: groundPoundAction.m_Name
+      value: Ground Pound
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.size
