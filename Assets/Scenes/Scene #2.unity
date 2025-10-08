@@ -79497,6 +79497,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: sprintAction.m_Name
+      value: Sprint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: groundPoundAction.m_Name
+      value: Ground Pound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
