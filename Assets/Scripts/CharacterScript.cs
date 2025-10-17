@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using UnityEngine.InputSystem;
 
 public class CharacterScript : MonoBehaviour
 {
@@ -74,9 +75,16 @@ public class CharacterScript : MonoBehaviour
     float WalljumpCd = 0.3f;
 
     [SerializeField] private UnityIntEvent OnHurt;
+    [SerializeField] private UnityIntEvent OnHeal;
     [SerializeField] private UnityEvent OnDeath;
     [SerializeField] private UnityEvent OnGameOver;
-    
+
+    //Player Action Variables
+    public InputAction moveAction;
+    public InputAction jumpAction;
+    public InputAction sprintAction;
+    public InputAction groundPoundAction;
+
     private void Start()
     {
         walkingFX = GetComponent<AudioSource>();
@@ -84,17 +92,26 @@ public class CharacterScript : MonoBehaviour
         ground = GameObject.FindWithTag("Ground");
         GridObject = GameObject.FindWithTag("Grid");
         grid = GridObject.GetComponent<Grid>();
+
+        moveAction = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump");
+        sprintAction = InputSystem.actions.FindAction("Sprint");
+        groundPoundAction = InputSystem.actions.FindAction("GroundPound");
+
     }
     
     // Runs every frame
     void Update()
     {
+        
         CheckInput();
         CheckonStairs();
+
         if (wallJumpReady)
             WallJump();
         else
             Jump();
+    
     }
 
     // Runs every frame (physics) 
@@ -145,6 +162,16 @@ public class CharacterScript : MonoBehaviour
         }
     }
 
+    public void Heal(int amount)
+    {
+        if (health != maxHealth)
+        {
+            health += amount;
+            OnHeal.Invoke(amount);
+        }
+        
+    }
+
     // Makes player red for a moment and gives inviniciblity frames
     IEnumerator ShowDamage()
     {
@@ -170,28 +197,27 @@ public class CharacterScript : MonoBehaviour
        
       */
 
-        if ((Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.LeftArrow)))
+        Vector2 _moveDirection = moveAction.ReadValue<Vector2>();
+
+        if (_moveDirection.x < -0.2f) //The -0.2f is mostly for controller, can be adjusted to make it feel better.
         {
             horizontalInput = -1f;
-
         }
-        else if ((Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.RightArrow)))
+        else if (_moveDirection.x > 0.2f) //The 0.2f is mostly for controller, can be adjusted to make it feel better.
         {
             horizontalInput = 1f;
-
-
         }
         else
         {
             horizontalInput = 0;
         }
 
-        if(Input.GetKey(KeyCode.DownArrow))
+        if (groundPoundAction.IsPressed())
         {
-            if((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
+            if ((!isGrounded || EnemyHit) && !IsAttacking) StartCoroutine(GroundPound());
         }
 
-        if(Input.GetKey(KeyCode.LeftShift))
+        if (sprintAction.IsPressed())
         {
             currentSpeed = baseSpeed + sprint;
         }
@@ -200,7 +226,6 @@ public class CharacterScript : MonoBehaviour
             currentSpeed = baseSpeed;
         }
 
-        
     }
 
     private IEnumerator GroundPound()
@@ -229,13 +254,14 @@ public class CharacterScript : MonoBehaviour
     // Handle Jump and double jump
     void Jump()
     {
+        //Debug.Log("Jumping!");
         if (isJumping && isGrounded && Mathf.Abs(body.velocity.y) < 0.01)
         {
             PlayerAnimator.SetBool("isJumping", false);
             isJumping = false;
             makeLandingSound(whatAmISteppingOn());
         }
-        else if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && (amountofJumps > 0))
+        else if (jumpAction.triggered && amountofJumps > 0)
         {
             body.velocity = new Vector2(body.velocity.x, jumpPower);
             PlayerAnimator.SetTrigger("StartJump");
@@ -257,12 +283,13 @@ public class CharacterScript : MonoBehaviour
     // Handle wall jump
     void WallJump()
     {
+        //Debug.Log("Wall Jumping!");
         if (isJumping && isGrounded && Mathf.Abs(body.velocity.y) < 0.01)
         {
             PlayerAnimator.SetBool("isJumping", false);
             isJumping = false;
         }
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && wallJumpReady)
+        if (jumpAction.triggered && wallJumpReady)
         {
             float dir;
             if (transform.localScale.x < 0)

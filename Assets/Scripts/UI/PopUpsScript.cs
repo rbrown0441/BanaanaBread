@@ -13,19 +13,28 @@ public class PopUpScript : MonoBehaviour
         Panel.SetActive(false);
     }
 
-    public void ActivatePanel(){
+    public void ActivatePanel()
+    {
         Panel.SetActive(true);
         Time.timeScale = 0f;
 
     }
-    public void GameOver(){
+    public void GameOver()
+    {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Main Menu");
     }
 
-    public void Retry(){
+    public void Retry()
+    {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void StartGame()
+    {
+        Time.timeScale = 1f;
+        Panel.SetActive(false);
     }
 
 }

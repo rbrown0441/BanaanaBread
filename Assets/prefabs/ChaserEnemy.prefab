@@ -257,10 +257,12 @@ MonoBehaviour:
   sightRadius: 3
   attackRange: 0.4
   speed: 0.75
-  damage: 10
+  damage: 1
   pushStrength: 5
+  health: 0
   player: {fileID: 0}
   animator: {fileID: 8071217604818069524}
+  Crystal: {fileID: 6223631660565979193, guid: 92fceef5d80b942489e5b6e6bfd1748e, type: 3}
   attackArea: {fileID: 345072864029329615}
   attacking: 0
   MidCheckRay: {fileID: 7179636347499505076}

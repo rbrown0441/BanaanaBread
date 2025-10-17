@@ -19,6 +19,7 @@ public class ChaserEnemy : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Animator animator;
     private CharacterScript playerScript;
+    [SerializeField] public GameObject Crystal;
     private bool chasing;
     private bool returning;
     [SerializeField] GameObject attackArea;
@@ -143,7 +144,11 @@ public class ChaserEnemy : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         health -= 1;
-        if (health < 1) Destroy(gameObject);
+        if (health < 1)
+        {
+            Instantiate(Crystal, transform.position, Crystal.transform.rotation);
+            Destroy(gameObject);
+        }
     }
 
     public void EndAttack()
