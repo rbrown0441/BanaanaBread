@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,7 +16,14 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private GameObject TopCheckRay;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
-    
+    [SerializeField] private PlayerInput playerInput;          // optional, auto-grabbed if missing
+    [SerializeField] private InputActionAsset fallbackActions;  // optional, assign if you don’t use PlayerInput
+
+
+
+
+
+
     //[SerializeField] private GameObject GroundCheckPoint;
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private float rayDist = 0.4f;
@@ -88,18 +95,80 @@ public class CharacterScript : MonoBehaviour
     private void Start()
     {
         walkingFX = GetComponent<AudioSource>();
+        if (walkingFX) walkingFX.clip = WalkFX;
         walkingFX.clip = WalkFX;
         ground = GameObject.FindWithTag("Ground");
+        if (!ground)
+        {
+            var anyTilemap = FindFirstObjectByType<UnityEngine.Tilemaps.Tilemap>();
+            if (anyTilemap) ground = anyTilemap.gameObject;
+        }
+
+        // Grid – try tag first, then any Grid in scene
+        var taggedGridObj = GameObject.FindWithTag("Grid");
+        var gridComp = taggedGridObj ? taggedGridObj.GetComponent<Grid>() : null;
+        if (!gridComp)
+        {
+            gridComp = FindFirstObjectByType<Grid>();
+        }
+        grid = gridComp; // may be null; whatAmISteppingOn() guards it
         GridObject = GameObject.FindWithTag("Grid");
         grid = GridObject.GetComponent<Grid>();
 
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
-        groundPoundAction = InputSystem.actions.FindAction("GroundPound");
+        if (!playerInput) playerInput = GetComponent<PlayerInput>();
+        var actionsAsset = playerInput ? playerInput.actions : fallbackActions;
+
+        if (actionsAsset == null)
+        {
+            Debug.LogError("No InputActionAsset found. Add a PlayerInput to the Player or assign fallbackActions.");
+            enabled = false;
+            return;
+        }
+
+        // --- INPUT WIRING: get a valid actionsAsset, bind actions, enable them ---
+        if (playerInput == null) playerInput = GetComponent<PlayerInput>();
+
+        // Prefer the asset on PlayerInput; if none, keep whatever you already assign to actionsAsset
+        var resolvedActions = (playerInput != null && playerInput.actions != null)
+            ? playerInput.actions
+            : actionsAsset; // <-- if you already serialize/assign this in the inspector
+
+        if (resolvedActions == null)
+        {
+            Debug.LogError("[CharacterScript] No InputActionAsset available. " +
+                           "Assign PlayerInput.actions on the Player or drag your .inputactions into 'actionsAsset'.");
+        }
+        else
+        {
+            // Try map-qualified names first (e.g., 'Gameplay/Move'), then plain names
+            moveAction = resolvedActions.FindAction("Gameplay/Move", throwIfNotFound: false)
+                             ?? resolvedActions.FindAction("Move", throwIfNotFound: true);
+
+            jumpAction = resolvedActions.FindAction("Gameplay/Jump", throwIfNotFound: false)
+                             ?? resolvedActions.FindAction("Jump", throwIfNotFound: true);
+
+            sprintAction = resolvedActions.FindAction("Gameplay/Sprint", throwIfNotFound: false)
+                             ?? resolvedActions.FindAction("Sprint", throwIfNotFound: false);
+
+            groundPoundAction = resolvedActions.FindAction("Gameplay/GroundPound", throwIfNotFound: false)
+                             ?? resolvedActions.FindAction("GroundPound", throwIfNotFound: false);
+
+            // Enable what we found (must be enabled to read values)
+            if (!moveAction.enabled) moveAction.Enable();
+            if (!jumpAction.enabled) jumpAction.Enable();
+            if (sprintAction != null && !sprintAction.enabled) sprintAction.Enable();
+            if (groundPoundAction != null && !groundPoundAction.enabled) groundPoundAction.Enable();
+
+            string sprintName = (sprintAction != null) ? sprintAction.name : "—";
+            string poundName = (groundPoundAction != null) ? groundPoundAction.name : "—";
+            Debug.Log($"[CharacterScript] Actions bound → Move:{moveAction?.name}  Jump:{jumpAction?.name}  " +
+            $"Sprint:{sprintName}  Pound:{poundName}");
+
+        }
 
     }
-    
+
+
     // Runs every frame
     void Update()
     {
@@ -472,5 +541,14 @@ public class CharacterScript : MonoBehaviour
 }
 
 
+
+
+
 [System.Serializable]
 public class UnityIntEvent : UnityEvent<int> { }
+
+
+
+
+
+
