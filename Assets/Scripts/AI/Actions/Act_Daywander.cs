@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Netherkin/AI Actions/Day Wander")]
+
+
+//Adjustment fields
+
+
+
 public class Act_DayWander : AIAction
 {
     [Header("Phase weighting (multiplies baseWeight)")]
@@ -16,7 +22,7 @@ public class Act_DayWander : AIAction
     public float moveSpeed = 1.8f;     // actual horizontal move speed
 
     [Header("Animation (optional)")]
-    public string walkBool = "Walking";
+    public string SunflowerwalkBool = "Walking";
 
     public override float Score(Blackboard bb, Perception2D s)
     {
@@ -34,7 +40,7 @@ public class Act_DayWander : AIAction
     public override void Enter(Blackboard bb, Perception2D s)
     {
         var anim = bb.self.GetComponent<Animator>();
-        if (anim && !string.IsNullOrEmpty(walkBool)) anim.SetBool(walkBool, true);
+        if (anim && !string.IsNullOrEmpty(SunflowerwalkBool)) anim.SetBool(SunflowerwalkBool, true);
     }
 
     public override void Tick(float dt, Blackboard bb, Perception2D s)
@@ -62,6 +68,6 @@ public class Act_DayWander : AIAction
     public override void Exit(Blackboard bb, Perception2D s)
     {
         var anim = bb.self.GetComponent<Animator>();
-        if (anim && !string.IsNullOrEmpty(walkBool)) anim.SetBool(walkBool, false);
+        if (anim && !string.IsNullOrEmpty(SunflowerwalkBool)) anim.SetBool(SunflowerwalkBool, false);
     }
 }

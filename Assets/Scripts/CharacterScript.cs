@@ -172,7 +172,9 @@ public class CharacterScript : MonoBehaviour
     // Runs every frame
     void Update()
     {
-        
+        //if (Time.frameCount % 30 == 0)
+            //Debug.Log($"isGrounded={isGrounded}  jumps={amountofJumps}  vel={body.velocity}");   debug for jump test
+
         CheckInput();
         CheckonStairs();
 

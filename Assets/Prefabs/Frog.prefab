@@ -151,7 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   senses: {fileID: 0}
-  actions: []
+  actions:
+  - {fileID: 11400000, guid: 241139963c1d33f41b08bc26d9137689, type: 2}
   anim: {fileID: 0}
   courage: 0.5
   curiosity: 0.5
