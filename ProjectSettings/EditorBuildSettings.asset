@@ -17,4 +17,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene #3.unity
     guid: 6bfc96e264fd4584bb59cb7854f46ece
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 65d88f2855c366e4c8624eb0c12d55e9, type: 3}

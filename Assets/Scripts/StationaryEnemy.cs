@@ -15,10 +15,10 @@ public class StationaryEnemy : MonoBehaviour
 
     // Make sure to set player in editor
     [SerializeField] private GameObject player;
-    private CharacterScript playerScript;
+    private Player playerScript;
 
     void Start() {
-        playerScript = player.GetComponent<CharacterScript>();
+        playerScript = player.GetComponent<Player>();
     }
     void OnCollisionStay2D(Collision2D collider) {
         //DamagePlayer(collider);

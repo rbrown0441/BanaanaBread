@@ -18,7 +18,7 @@ public class ChaserEnemy : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private GameObject player;
     [SerializeField] private Animator animator;
-    private CharacterScript playerScript;
+    private Player playerScript;
     private bool chasing;
     private bool returning;
     [SerializeField] GameObject attackArea;
@@ -38,7 +38,7 @@ public class ChaserEnemy : MonoBehaviour
         spawnPoint = transform.position;
         chasing = false;
         returning = false;
-        playerScript = player.GetComponent<CharacterScript>();
+        playerScript = player.GetComponent<Player>();
         attackArea.SetActive(false);
         originalScale = transform.localScale.x;
     }
@@ -111,7 +111,6 @@ public class ChaserEnemy : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collider)
     {
-        Debug.Log($"Getting Attacked: {playerScript.IsAttacking}");
         if (collider.gameObject == player && playerScript.IsAttacking) StartCoroutine(TakeDamage());
         else DamagePlayer(collider.gameObject);
     }

@@ -7,7 +7,7 @@ public class HealthBarUI : MonoBehaviour
     [SerializeField] private GameObject[] healthIcons;
     void Start()
     {
-        currentHealth = FindFirstObjectByType<CharacterScript>().health;
+        currentHealth = FindFirstObjectByType<Player>().health;
     }
     
 
@@ -18,7 +18,7 @@ public class HealthBarUI : MonoBehaviour
             Animator animator = icon.GetComponent<Animator>();
             animator.SetBool("Hurt", false);
         }
-        currentHealth = FindFirstObjectByType<CharacterScript>().health;
+        currentHealth = FindFirstObjectByType<Player>().health;
         
     }
     

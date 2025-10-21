@@ -6,7 +6,7 @@ public class InteractiveObject : MonoBehaviour
 {
     // This boolean determines if this interaction can happen or not.
     private bool _inRange;
-    public CharacterScript Character;
+    public Player Character;
     
     [SerializeField]
     public UnityEvent OnTriggerEnter;
@@ -30,7 +30,7 @@ public class InteractiveObject : MonoBehaviour
         // Can use any function you need that is on the character, like Character.Hurt();
         // or have any other script get the CharacterScript reference from InteractiveObject
         
-        if (other.TryGetComponent(out CharacterScript character)) 
+        if (other.TryGetComponent(out Player character)) 
         {
             if (Interactable)
             {
@@ -51,7 +51,7 @@ public class InteractiveObject : MonoBehaviour
     {
         if (Interactable)
         {
-            if (other.TryGetComponent(out CharacterScript character))
+            if (other.TryGetComponent(out Player character))
             {
                 _inRange = false;
 

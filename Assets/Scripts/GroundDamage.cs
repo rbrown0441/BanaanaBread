@@ -13,9 +13,9 @@ public class GroundDamage : MonoBehaviour
     [SerializeField] private float pushStrength;
 
     [SerializeField] private GameObject player;
-    private CharacterScript playerScript;
+    private Player playerScript;
     void Start() {
-        playerScript = player.GetComponent<CharacterScript>();
+        playerScript = player.GetComponent<Player>();
     }
 
     // Handle damaging player    

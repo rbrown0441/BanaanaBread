@@ -20,12 +20,12 @@ public class PatrollingEnemy : MonoBehaviour
 
     // Make sure to set the player in the editor
     [SerializeField] private GameObject player;
-    private CharacterScript playerScript;
+    private Player playerScript;
     private float targetPoint;
 
     void Start() {
         
-        playerScript = FindFirstObjectByType<CharacterScript>();
+        playerScript = FindFirstObjectByType<Player>();
         targetPoint = pointA;
     }
 
