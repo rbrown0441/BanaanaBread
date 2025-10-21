@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 5528286264745023035}
   - component: {fileID: 3633058195912152588}
   - component: {fileID: 2325352791050594230}
+  - component: {fileID: 5759874866707295479}
   m_Layer: 6
   m_Name: GolemEnemy 1
   m_TagString: Untagged
@@ -311,6 +312,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   walkingOnStairsTime: 0
+--- !u!114 &5759874866707295479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445942365222322962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd3a6358269d1f4d993f260e89738b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 4
+  destroyOnDeath: 1
 --- !u!1 &8912958867698488210
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,4 +416,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46b3dac059d3e324e9003f25e5d9fead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerisInAttackArea: 0
+  playerisInAttackArea: 1
