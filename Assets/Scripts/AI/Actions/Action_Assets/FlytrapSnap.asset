@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: FlytrapSnap
   m_EditorClassIdentifier: 
   baseWeight: 1
-  biteRange: 0.9
-  arcDegrees: 120
-  cooldown: 1.4
+  biteRange: 1.13
+  arcDegrees: 227.8
+  cooldown: 0.8
   attackTrigger: Attack
+  positiveScaleFacesRight: 0
+  log: 1

@@ -77,11 +77,13 @@ public Transform FindBestTarget()
     bool InFOV(Vector2 to)
     {
         if (to.sqrMagnitude < 0.0001f) return true; // standing on us
-        Vector2 fwd = transform.right; // 2D "forward" (x+)
-        float cosHalf = Mathf.Cos(0.5f * fovDeg * Mathf.Deg2Rad);
-        // Dot of normalized vectors > cos(halfFov) means within cone
-        return Vector2.Dot(to.normalized, fwd) > cosHalf;
 
+        // Determine facing from localScale.x (negative = facing left)
+        float face = Mathf.Sign(transform.localScale.x == 0 ? 1f : transform.localScale.x);
+        Vector2 fwd = (face >= 0f) ? Vector2.right : Vector2.left;
+
+        float cosHalf = Mathf.Cos(0.5f * fovDeg * Mathf.Deg2Rad);
+        return Vector2.Dot(to.normalized, fwd) > cosHalf;
     }
 
     // Is there a clear line between A and B (no walls)

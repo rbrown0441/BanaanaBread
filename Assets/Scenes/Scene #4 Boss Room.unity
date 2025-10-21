@@ -34808,7 +34808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4400226484364184467, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: targetScene
-      value: Scene #4
+      value: Scene #3
       objectReference: {fileID: 0}
     - target: {fileID: 4400226484364184467, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: targetPortalId
@@ -34833,7 +34833,7 @@ PrefabInstance:
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1313876044}
+      objectReference: {fileID: 1313876045}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
@@ -34875,17 +34875,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
---- !u!1 &1313876044 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3223254567195107142, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
-  m_PrefabInstance: {fileID: 1313876043}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1313876045 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4400226484364184467, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
   m_PrefabInstance: {fileID: 1313876043}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313876044}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4b3594d651061145b87f1cd263370a6, type: 3}

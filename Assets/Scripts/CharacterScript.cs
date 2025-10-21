@@ -16,8 +16,13 @@ public class CharacterScript : MonoBehaviour
     [SerializeField] private GameObject TopCheckRay;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
-    [SerializeField] private PlayerInput playerInput;          // optional, auto-grabbed if missing
-    [SerializeField] private InputActionAsset fallbackActions;  // optional, assign if you don’t use PlayerInput
+    [SerializeField] private PlayerInput playerInput;          
+    [SerializeField] private InputActionAsset fallbackActions;
+    [SerializeField] private LayerMask groundPoundHitMask;         // must include the layer your Sunflowers are on
+    [SerializeField] private Vector2 poundHitBoxSize = new Vector2(0.8f, 0.35f);
+    [SerializeField] private float poundHitBoxOffsetY = 0.20f;  
+    [SerializeField] private int groundPoundDamage = 1;
+    [SerializeField] private float poundKnockback = 4f;
 
 
 
@@ -233,6 +238,38 @@ public class CharacterScript : MonoBehaviour
         }
     }
 
+
+    void DoGroundPoundHit()
+    {
+        if (PlayerCollider == null) return;
+
+        Bounds b = PlayerCollider.bounds;
+        Vector2 center = new Vector2(b.center.x, b.min.y - poundHitBoxSize.y * 0.5f);
+
+        var hits = Physics2D.OverlapBoxAll(center, poundHitBoxSize, 0f, groundPoundHitMask);
+        foreach (var h in hits)
+        {
+            var hp = h.GetComponentInParent<Health2D>();
+            if (!hp) continue;
+
+            Vector2 dir = (h.bounds.center - b.center).normalized;
+            hp.TakeHit(groundPoundDamage, dir * poundKnockback);
+        }
+
+        // Debug box so you can see where it hit
+        Vector3 p0 = new Vector3(center.x - poundHitBoxSize.x * 0.5f, center.y - poundHitBoxSize.y * 0.5f);
+        Vector3 p1 = new Vector3(center.x + poundHitBoxSize.x * 0.5f, center.y - poundHitBoxSize.y * 0.5f);
+        Vector3 p2 = new Vector3(center.x + poundHitBoxSize.x * 0.5f, center.y + poundHitBoxSize.y * 0.5f);
+        Vector3 p3 = new Vector3(center.x - poundHitBoxSize.x * 0.5f, center.y + poundHitBoxSize.y * 0.5f);
+        Debug.DrawLine(p0, p1, Color.yellow, 0.15f);
+        Debug.DrawLine(p1, p2, Color.yellow, 0.15f);
+        Debug.DrawLine(p2, p3, Color.yellow, 0.15f);
+        Debug.DrawLine(p3, p0, Color.yellow, 0.15f);
+    }
+
+
+
+
     public void Heal(int amount)
     {
         if (health != maxHealth)
@@ -298,24 +335,30 @@ public class CharacterScript : MonoBehaviour
         }
 
     }
-
     private IEnumerator GroundPound()
     {
         IsAttacking = true;
 
+        // start falling fast
         body.velocity = new Vector2(body.velocity.x, groundPoundPower);
 
+        // wait until we hit ground OR we collided with an enemy
         yield return new WaitUntil(() => isGrounded || EnemyHit);
 
+        // deal damage 
+        DoGroundPoundHit();
+
+        // little bounce if connected on an enemy
         if (EnemyHit)
         {
-            body.velocity = new Vector2(body.velocity.x, -groundPoundPower/2);
+            body.velocity = new Vector2(body.velocity.x, -groundPoundPower / 2f);
             yield return new WaitForSeconds(0.25f);
         }
 
         EnemyHit = false;
         IsAttacking = false;
     }
+
 
     void OnCollisionEnter2D(Collision2D collider)
     {
@@ -375,6 +418,9 @@ public class CharacterScript : MonoBehaviour
             wallJumpReady = false;
         }
     }
+
+
+
 
     // Move the player with horizontal movement and animate
     void Movement()
