@@ -307,7 +307,7 @@ Transform:
   m_GameObject: {fileID: 211709694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.46, y: 4.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -337,7 +337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 927218632297923749, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.11
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 927218632297923749, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -357,11 +357,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 927218632297923749, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -8.39
+      value: -9.12
       objectReference: {fileID: 0}
     - target: {fileID: 927218632297923749, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5.27
+      value: 9.45
       objectReference: {fileID: 0}
     - target: {fileID: 927218632297923749, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -397,7 +397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3223254567195107142, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Tunnel_Portal_West_3
       objectReference: {fileID: 0}
     - target: {fileID: 3408797722032242689, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: m_IsActive
@@ -409,7 +409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4400226484364184467, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: targetScene
-      value: Scene #4
+      value: Scene #4 Boss Room
       objectReference: {fileID: 0}
     - target: {fileID: 4400226484364184467, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: targetPortalId
@@ -436,9 +436,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
+      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1726147007}
+      objectReference: {fileID: 546273344}
+    - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
+      propertyPath: OnTriggerExit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
@@ -448,6 +456,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 546273344}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
+      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TravelNow
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 546273344}
@@ -456,8 +468,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
+      propertyPath: OnTriggerExit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowPrompt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ShowPrompt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
+      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TunnelPortal, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6810206340276573261, guid: 0b2432a4b0151ec4fa9fd2dbe0114cb7, type: 3}
       propertyPath: OnTriggerEnter.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -57713,11 +57733,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.1
+      value: -8.71
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.64
+      value: 9.78
       objectReference: {fileID: 0}
     - target: {fileID: 5287401655608816635, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: m_LocalPosition.z
@@ -57756,6 +57776,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2637328331020260227, guid: 8bdce03e9fde7d747865bfd676ccd248, type: 3}
@@ -57767,6 +57791,10 @@ PrefabInstance:
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 546273344}
+    - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
+      propertyPath: OnGameOver.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnGameOver.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -57961,11 +57989,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 739483648237578239, guid: 8bdce03e9fde7d747865bfd676ccd248, type: 3}
   m_PrefabInstance: {fileID: 1726147005}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1726147007 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7189525342436831592, guid: 8bdce03e9fde7d747865bfd676ccd248, type: 3}
-  m_PrefabInstance: {fileID: 1726147005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1816049897
 GameObject:
   m_ObjectHideFlags: 0
@@ -58077,7 +58100,7 @@ Transform:
   m_GameObject: {fileID: 1816049897}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.02648367, w: 0.9996493}
-  m_LocalPosition: {x: 7.33, y: 5.63, z: 0}
+  m_LocalPosition: {x: 6.64, y: 9.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -58283,7 +58306,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1.8266098
+  orthographic size: 2.3654985
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -58308,7 +58331,7 @@ Transform:
   m_GameObject: {fileID: 1956533708}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.08, y: 6.01, z: -10}
+  m_LocalPosition: {x: -8.92, y: 10.15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
