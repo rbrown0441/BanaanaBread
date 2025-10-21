@@ -176,6 +176,13 @@ MonoBehaviour:
   BottomRay: {fileID: 7140635255135387672}
   playerInput: {fileID: 0}
   fallbackActions: {fileID: 0}
+  groundPoundHitMask:
+    serializedVersion: 2
+    m_Bits: 64
+  poundHitBoxSize: {x: 1.2, y: 0.5}
+  poundHitBoxOffsetY: 0.2
+  groundPoundDamage: 1
+  poundKnockback: 4
   sprite: {fileID: 9124096902029822363}
   rayDist: 0.4
   baseSpeed: 3
@@ -192,8 +199,8 @@ MonoBehaviour:
   maxLives: 3
   lives: 3
   tileTypes: {fileID: 11400000, guid: 741885bef4826154f806c5665a776b0e, type: 2}
-  JumpFX: {fileID: 8300000, guid: b80b4467a0ea1004898c351cafe7a0f5, type: 3}
-  DoubleJumpFX: {fileID: 8300000, guid: 652fad64651377549bdd721081bd14b9, type: 3}
+  JumpFX: {fileID: 8300000, guid: 9c29b3f9d71559d4d86b330852886af8, type: 3}
+  DoubleJumpFX: {fileID: 8300000, guid: 099d5919ad784aa428eb27c61671ed4f, type: 3}
   WalkFX: {fileID: 8300000, guid: 2686afe271af0b9409d444691308b16a, type: 3}
   WalkGrassFX: {fileID: 8300000, guid: 3d6fda238ca790640b1b765fa4f91ded, type: 3}
   LandingFX: {fileID: 8300000, guid: 33e91e7c40006b246be05cd96e549449, type: 3}

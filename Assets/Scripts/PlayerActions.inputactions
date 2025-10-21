@@ -101,8 +101,8 @@
                 {
                     "name": "",
                     "id": "446175f4-1448-4d41-bc8a-739b3c7e1d14",
-                    "path": "<Joystick>/stick/down",
-                    "interactions": "Hold",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": ";Controller",
                     "action": "GroundPound",
@@ -112,10 +112,10 @@
                 {
                     "name": "",
                     "id": "80fdcf79-4f1f-477a-8dc6-c518a5d173b9",
-                    "path": "",
+                    "path": "<Joystick>/stick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Controller",
                     "action": "GroundPound",
                     "isComposite": false,
                     "isPartOfComposite": false

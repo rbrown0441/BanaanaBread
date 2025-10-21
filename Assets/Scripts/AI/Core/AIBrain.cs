@@ -247,19 +247,26 @@ public class AIBrain : MonoBehaviour
         float bestScore = -1f;
         AIAction pick   = null;
 
-        // Evaluate each candidate
+        // Evaluate each candidate (with debug)
         for (int i = 0; i < actions.Count; i++)
         {
             var a = actions[i];
             if (!a) continue;
 
             float s = Mathf.Max(0f, a.Score(bb, senses)); // clamp negative to 0
+
+            if (logDecisions)
+                Debug.Log($"[Brain] candidate {a.name} scored {s:F2}", this);
+
             if (s > bestScore)
             {
                 bestScore = s;
                 pick = a;
             }
         }
+        if (logDecisions)
+            Debug.Log($"[Brain] pick {(pick ? pick.name : "none")} (bestScore={bestScore:F2})", this);
+
 
         // No viable action? keep current if it exists.
         if (pick == null) return;
