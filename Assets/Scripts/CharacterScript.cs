@@ -514,7 +514,7 @@ public class CharacterScript : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapAreaAll(GroundCheck.bounds.min, GroundCheck.bounds.max, groundLayer).Length > 0;
         if (isGrounded)
-            amountofJumps = 1;
+            amountofJumps = 2;
     }
 
     // Checks if player is on stairs
