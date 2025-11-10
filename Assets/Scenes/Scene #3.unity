@@ -260,6 +260,17 @@ MonoBehaviour:
   maxPlacementTries: 20
   entries:
   - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
+    minCount: 1
+    maxCount: 2
+    spawnPoints: []
+    localAreas:
+    - {fileID: 1784060083}
+    localAreaWeights: []
+    clustered: 1
+    clusterSizeMin: 3
+    clusterSizeMax: 6
+    clusterRadius: 1.5
+  - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
     minCount: 3
     maxCount: 6
     spawnPoints: []
@@ -270,39 +281,6 @@ MonoBehaviour:
     clusterSizeMin: 3
     clusterSizeMax: 6
     clusterRadius: 1.5
-  - prefab: {fileID: 1074588243361273068, guid: 0df7bbd698073224789f49aec2ef7a93, type: 3}
-    minCount: 1
-    maxCount: 1
-    spawnPoints: []
-    localAreas:
-    - {fileID: 1456852461}
-    localAreaWeights: []
-    clustered: 0
-    clusterSizeMin: 1
-    clusterSizeMax: 1
-    clusterRadius: 0.9
-  - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
-    minCount: 2
-    maxCount: 3
-    spawnPoints: []
-    localAreas:
-    - {fileID: 1148210784}
-    localAreaWeights: []
-    clustered: 1
-    clusterSizeMin: 2
-    clusterSizeMax: 3
-    clusterRadius: 1.5
-  - prefab: {fileID: 1939836655606239949, guid: 79bc7289347bf77438a740f86ce56c80, type: 3}
-    minCount: 2
-    maxCount: 3
-    spawnPoints: []
-    localAreas:
-    - {fileID: 1689909144}
-    localAreaWeights: []
-    clustered: 1
-    clusterSizeMin: 1
-    clusterSizeMax: 2
-    clusterRadius: 2
   dayMult: 1
   twilightMult: 1
   nightMult: 1
