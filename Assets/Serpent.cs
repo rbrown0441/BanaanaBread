@@ -7,17 +7,12 @@ public class Serpent : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        [SerializeField] Animator animator;
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-if (input != 0)
-        {
-            animator.SetBool("isAttacking", true);
-           
-        }        
+        
     }
 }
