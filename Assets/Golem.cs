@@ -2,22 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Serpent : MonoBehaviour
+public class Golem : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        [SerializeField] Animator animator;
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-if (input != 0)
-        {
-            animator.SetBool("isAttacking", true);
-           
-        }        
+        
     }
 }
