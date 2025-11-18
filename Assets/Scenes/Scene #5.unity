@@ -314,6 +314,111 @@ Transform:
   - {fileID: 678457572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &215671594
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 617013762634149749, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: Panel
+      value: 
+      objectReference: {fileID: 215671596}
+    - target: {fileID: 742030231274560252, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 215671595}
+    - target: {fileID: 742030231274560252, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 742030231274560252, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PopUpScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092818557721279797, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_Name
+      value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776422078159192569, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 215671595}
+    - target: {fileID: 5776422078159192569, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Retry
+      objectReference: {fileID: 0}
+    - target: {fileID: 5776422078159192569, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PopUpScript, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6240591407825266583, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 960
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 540
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8947348759912026057, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+--- !u!114 &215671595 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 617013762634149749, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+  m_PrefabInstance: {fileID: 215671594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d17aa48ec9feb34a89f1ff800ea1a39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &215671596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6240591407825266583, guid: 51e9a1304cedbdf43b25caada16c8be6, type: 3}
+  m_PrefabInstance: {fileID: 215671594}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &463073089 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 727345795898887544, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
@@ -57802,7 +57907,7 @@ PrefabInstance:
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnGameOver.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 546273344}
+      objectReference: {fileID: 215671595}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateHealthIconsHealing
@@ -57817,7 +57922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnGameOver.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TravelNow
+      value: ActivatePanel
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -57829,7 +57934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnGameOver.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: TunnelPortal, Assembly-CSharp
+      value: PopUpScript, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8204274943423608153, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -58502,3 +58607,4 @@ SceneRoots:
   - {fileID: 1196790728}
   - {fileID: 546273343}
   - {fileID: 1816049901}
+  - {fileID: 215671594}

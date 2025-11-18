@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,8 +22,8 @@ public class GolemEnemy : MonoBehaviour
     private bool chasing;
     private bool returning;
     [SerializeField] GameObject attackArea;
-    [SerializeField] private bool attacking = false;
-    [SerializeField] private bool isDead = false;
+    private bool attacking = false;
+    private bool isDead = false;
     [SerializeField] private GameObject MidCheckRay;
     [SerializeField] private GameObject BottomRay;
     [SerializeField] private GameObject TopCheckRay;
@@ -37,90 +36,141 @@ public class GolemEnemy : MonoBehaviour
     [SerializeField] private float walkingOnStairsTime = 0;
     // private bool attackFrames = false;
 
+
+    void Awake()
+    {
+        // If you forgot to wire Player in the Inspector, fall back to the tagged object
+        if (!player)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+    }
+
+
+
     void Start()
     {
         spawnPoint = transform.position;
         chasing = false;
         returning = false;
+        attacking = false;
+        isDead = false;
+
+        if (!player)
+        {
+            Debug.LogError("[GolemEnemy] No Player assigned and none found with tag 'Player'", this);
+            enabled = false;
+            return;
+        }
+
         playerScript = player.GetComponent<CharacterScript>();
+        if (!playerScript)
+        {
+            Debug.LogError("[GolemEnemy] Player has no CharacterScript component", player);
+        }
+
         attackArea.SetActive(false);
         originalScale = transform.localScale.x;
         spriteRenderer = GetComponent<SpriteRenderer>(); // for fade
+
+        if (animator)
+        {
+            animator.SetBool("Walking", false);
+            animator.SetBool("Attacking", false);
+        }
     }
-    
+
+
+
     void Update()
     {
+        if (isDead) return;
+        if (!player) return; // guarded in Start, but just in case
 
-        //   CheckonStairs();
-        if ((Vector2.Distance(transform.position, player.transform.position) <= attackRange) && (!attacking))
+        // 2D distance is enough and avoids any Vector3 ambiguity
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+        // === ATTACK CHECK ===
+        if (!attacking && distanceToPlayer <= attackRange)
         {
-
             attacking = true;
             animator.SetBool("Attacking", true);
-            // randomAttack = Random.Range(0, 1);
-            // if (randomAttack == 0) animator.SetBool("Attacking", true);
-            // else if (randomAttack == 1) animator.SetBool("Attacking1", true);
-
+            animator.SetBool("Walking", false);
+            // Attack animation should call AttackWindowOpen/Close + EndAttack via events
+            return; // don’t run chase logic this frame
         }
 
-        if (!attacking)
+        if (attacking)
         {
-            
-            if (Vector2.Distance(transform.position, player.transform.position) <= sightRadius)
+            // We’re in the middle of an attack; wait for animation events to clear it
+            return;
+        }
+
+        // === CHASE / RETURN STATE SELECTION ===
+        if (distanceToPlayer <= sightRadius)
+        {
+            chasing = true;
+            returning = false;
+        }
+        else if (chasing && distanceToPlayer >= sightRadius * 2f)
+        {
+            chasing = false;
+            returning = true;
+        }
+
+        // === MOVE & ANIMATE ===
+        if (chasing)
+        {
+            float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
+            transform.localScale = new UnityEngine.Vector3(-direction * originalScale, transform.localScale.y, transform.localScale.z);
+
+            if (!IsFasingWall(direction))
             {
-
-                chasing = true;
-                returning = false;
-
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    new Vector2(player.transform.position.x, transform.position.y),
+                    speed * Time.deltaTime
+                );
+                animator.SetBool("Walking", true);
             }
-            else if (Vector2.Distance(transform.position, player.transform.position) >= sightRadius * 2 && chasing)
+            else
             {
-                chasing = false;
-                returning = true;
-
-            }
-            if (chasing)
-            {
-                dirction = Mathf.Sign( player.transform.position.x- transform.position.x );
-                
-                transform.localScale = new UnityEngine.Vector3(dirction * originalScale, transform.localScale.y, transform.localScale.z);
-                if (!IsFasingWall(dirction))
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, new Vector2(player.transform.position.x, transform.position.y), speed * Time.deltaTime);
-                    animator.SetBool("Walking", true);
-                }
-                else
-                    animator.SetBool("Walking", false);
-
-                CheckForStairs(dirction);
-
-
-            }
-            else if (returning)
-            {
-                dirction = Mathf.Sign(spawnPoint.x - transform.position.x);
-                transform.localScale = new UnityEngine.Vector3(dirction * originalScale, transform.localScale.y, transform.localScale.z);
-                if (!IsFasingWall(dirction))
-                {
-                    animator.SetBool("Walking", true);
-                    transform.position = Vector2.MoveTowards(transform.position, new Vector2(spawnPoint.x, transform.position.y), speed * Time.deltaTime);
-                }
-                else
-                    animator.SetBool("Walking", false);
-
-
-                CheckForStairs(dirction);
-
-                if (Vector2.Distance(transform.position, spawnPoint) < 0.2f)
-                {
-                    returning = false;
-                    animator.SetBool("Walking", false);
-                }
-
+                animator.SetBool("Walking", false);
             }
         }
-    
+        else if (returning)
+        {
+            float direction = Mathf.Sign(spawnPoint.x - transform.position.x);
+            transform.localScale = new UnityEngine.Vector3(-direction * originalScale, transform.localScale.y, transform.localScale.z);
+
+            if (!IsFasingWall(direction))
+            {
+                animator.SetBool("Walking", true);
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    new Vector2(spawnPoint.x, transform.position.y),
+                    speed * Time.deltaTime
+                );
+            }
+            else
+            {
+                animator.SetBool("Walking", false);
+            }
+
+            if (Vector2.Distance(transform.position, spawnPoint) < 0.2f)
+            {
+                returning = false;
+                animator.SetBool("Walking", false);
+            }
+        }
+        else
+        {
+            // idle
+            animator.SetBool("Walking", false);
+            animator.SetBool("Attacking", false);
+        }
     }
+
     void OnCollisionEnter2D(Collision2D collider)
     {
         Debug.Log($"Getting Attacked: {playerScript.IsAttacking}");
@@ -162,8 +212,10 @@ public class GolemEnemy : MonoBehaviour
 
     IEnumerator Die()
     {
-        isDead = true;
-        animator.SetTrigger("Death");
+        // in Die()
+isDead=true;
+animator.SetBool("Golem_Death",true);
+
         // BoxCollider2D collider = GetComponent<BoxCollider2D>();
         // collider.size = new Vector2(1.4f, 0.4f);     // Width, Height
         // collider.offset = new Vector2(0f, -0.8f);
@@ -213,6 +265,8 @@ public class GolemEnemy : MonoBehaviour
     public void AttackWindowClose()
     {
         attackArea.SetActive(false);
+        attacking = false;
+        animator.SetBool("Attacking", false);
     }
     void CheckForStairs(float direction)
     {

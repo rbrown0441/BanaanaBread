@@ -30,6 +30,8 @@ public class CharacterScript : MonoBehaviour
 
 
     //[SerializeField] private GameObject GroundCheckPoint;
+    [SerializeField] bool useBoxcastGrounding = false; // enable per scene (scene 4 only)
+    [SerializeField] bool useColliderCastGrounding = true; //(turn on for scene 4
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private float rayDist = 0.4f;
 
@@ -51,7 +53,9 @@ public class CharacterScript : MonoBehaviour
     //  [SerializeField] private float acceleration = 0.20f;//0.25f
 
     // level tools
-    [SerializeField] public Vector2 spawnPoint;
+    [Header("Respawn")]
+    public Transform respawnPoint;                 // set per-scene or via checkpoints
+    [SerializeField] Vector2 fallbackSpawn = new Vector2(-1f, 0.5f); // legacy safety
     [SerializeField] private float floorBoxHeight;
     [SerializeField] public int maxHealth;
     [SerializeField] public int health;
@@ -187,32 +191,91 @@ public class CharacterScript : MonoBehaviour
             WallJump();
         else
             Jump();
-    
+
     }
 
     // Runs every frame (physics) 
     void FixedUpdate()
     {
-        CheckGrounded();
+        isGrounded = useColliderCastGrounding ? IsGrounded_ColliderCast()
+                     : (useBoxcastGrounding ? IsGrounded_Boxcast()
+                                            : isGrounded); // (or call your old CheckGrounded())
+
+        if (isGrounded) amountofJumps = 2;    // refill here
+
         Movement();
         ApplyFriction();
-        
-        //Kills player if they fall in hole
-        if (transform.position.y < floorBoxHeight)
-            Die();
+
+        if (transform.position.y < floorBoxHeight) Die();
+    }
+
+
+    bool IsGrounded_Boxcast()
+    {
+        // Seam-proof “feet box” directly under the collider
+        var b = PlayerCollider.bounds;
+        const float skin = 0.02f;                 // just below feet
+        var center = new Vector2(b.center.x, b.min.y - skin);
+        var size = new Vector2(b.size.x * 0.8f, 0.06f);  // wide, very thin
+
+        return Physics2D.OverlapBox(center, size, 0f, groundLayer) != null;
+    }
+
+    bool IsGrounded_ColliderCast()
+    {
+        if (!PlayerCollider) return false;
+
+        // Cast the player's collider straight down a tiny distance
+        var filter = new ContactFilter2D { useLayerMask = true, layerMask = groundLayer, useTriggers = false };
+        var hits = new RaycastHit2D[4];
+        const float dist = 0.06f; // small skin
+
+        int count = PlayerCollider.Cast(Vector2.down, filter, hits, dist);
+        for (int i = 0; i < count; i++)
+        {
+            if (hits[i].collider && hits[i].normal.y > 0.2f) return true; // upward-ish surface
+        }
+        return false;
+    }
+
+    // helper to see it
+    void OnDrawGizmosSelected()
+    {
+        if (!PlayerCollider) return;
+        var b = PlayerCollider.bounds;
+        const float skin = 0.02f;
+        var center = new Vector2(b.center.x, b.min.y - skin);
+        var size = new Vector2(b.size.x * 0.8f, 0.06f);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(center, size);
+    }
+
+
+
+    // set checkpoint to player location
+    public void SetCheckpoint(Transform t)
+    {        // <-- used by Checkpoint; does NOT teleport now
+        respawnPoint = t;
     }
 
     // Reset player on death
     void Die()
     {
         health = maxHealth;
-        transform.position = spawnPoint;
+
+        // choose respawn location
+        Vector3 pos = respawnPoint
+            ? respawnPoint.position
+            : new Vector3(fallbackSpawn.x, fallbackSpawn.y, transform.position.z);
+
+        if (body) body.velocity = Vector2.zero; // clear fall momentum
+        transform.position = pos;
+
         lives -= 1;
-        if (lives <= 0){
-            OnGameOver.Invoke();
-        }
-        OnDeath.Invoke();
+        if (lives <= 0) OnGameOver.Invoke();
+        OnDeath.Invoke();                      // UI etc.
     }
+
 
     // Handles player taking damage
     public void Hurt(int damage, Vector2 pushForce)
@@ -238,25 +301,69 @@ public class CharacterScript : MonoBehaviour
         }
     }
 
+    public void RespawnAtAnchor()
+    {
+        Vector3 pos = (respawnPoint != null)
+            ? respawnPoint.position
+            : new Vector3(fallbackSpawn.x, fallbackSpawn.y, transform.position.z);
 
+        if (body) body.velocity = Vector2.zero;
+        transform.position = pos;
+    }
+
+
+    // lets you pass any Transform (e.g., a tunnel's child SpawnPoint)
+    public void RespawnAt(Transform t)
+    {
+        respawnPoint = t;
+        RespawnAtAnchor();
+    }
     void DoGroundPoundHit()
     {
         if (PlayerCollider == null) return;
 
         Bounds b = PlayerCollider.bounds;
-        Vector2 center = new Vector2(b.center.x, b.min.y - poundHitBoxSize.y * 0.5f);
 
-        var hits = Physics2D.OverlapBoxAll(center, poundHitBoxSize, 0f, groundPoundHitMask);
+        // centered just under the feet; tweak in the Inspector
+        Vector2 center = new Vector2(
+            b.center.x,
+            b.min.y - poundHitBoxOffsetY
+        );
+
+        var hits = Physics2D.OverlapBoxAll(center, poundHitBoxSize, 0f);
+
+        float maxBounce = 0f;
+
         foreach (var h in hits)
         {
-            var hp = h.GetComponentInParent<Health2D>();
-            if (!hp) continue;
+            // ALWAYS try to get Health2D
+            Health2D hp = h.GetComponentInParent<Health2D>();
+            if (!hp) continue; // no health = no damage
+
+            // Try to get per-collider stomp settings (optional)
+            var surf = h.GetComponent<EnemyJumpStompSurface2D>();
+            if (!surf) surf = h.GetComponentInParent<EnemyJumpStompSurface2D>();
+
+            // pick damage: stomp override if set, otherwise default groundPoundDamage
+            int dmg = groundPoundDamage;
+            if (surf && surf.stompDamage > 0)
+                dmg = surf.stompDamage;
 
             Vector2 dir = (h.bounds.center - b.center).normalized;
-            hp.TakeHit(groundPoundDamage, dir * poundKnockback);
+            hp.TakeHit(dmg, dir * poundKnockback);
+
+            // remember strongest bounce if surface defines it
+            if (surf && surf.stompBounceVelocity > maxBounce)
+                maxBounce = surf.stompBounceVelocity;
         }
 
-        // Debug box so you can see where it hit
+        // Apply bounce if we stomped something
+        if (maxBounce > 0f && body != null)
+        {
+            body.velocity = new Vector2(body.velocity.x, maxBounce);
+        }
+
+        // Debug box so you can see it
         Vector3 p0 = new Vector3(center.x - poundHitBoxSize.x * 0.5f, center.y - poundHitBoxSize.y * 0.5f);
         Vector3 p1 = new Vector3(center.x + poundHitBoxSize.x * 0.5f, center.y - poundHitBoxSize.y * 0.5f);
         Vector3 p2 = new Vector3(center.x + poundHitBoxSize.x * 0.5f, center.y + poundHitBoxSize.y * 0.5f);
@@ -266,7 +373,6 @@ public class CharacterScript : MonoBehaviour
         Debug.DrawLine(p2, p3, Color.yellow, 0.15f);
         Debug.DrawLine(p3, p0, Color.yellow, 0.15f);
     }
-
 
 
 
@@ -360,10 +466,54 @@ public class CharacterScript : MonoBehaviour
     }
 
 
-    void OnCollisionEnter2D(Collision2D collider)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collider.gameObject.tag.ToLower() == "enemy" && IsAttacking) EnemyHit = true;  
+        // If we're in a ground-pound (IsAttacking), treat "anything with Health2D"
+        // as an enemy hit so the coroutine can finish and DoGroundPoundHit() can run.
+        if (IsAttacking)
+        {
+            var hpOnHit = collision.collider.GetComponentInParent<Health2D>();
+            if (hpOnHit != null)
+            {
+                EnemyHit = true;
+            }
+
+            // IMPORTANT: skip stomp/bounce logic while ground-pounding.
+            // The pound coroutine will handle damage + bounce.
+            return;
+        }
+
+        // --- Jump-off-enemy logic (ONLY when NOT ground-pounding) ---
+        foreach (var contact in collision.contacts)
+        {
+            // contact normal pointing up => we landed on top of something
+            if (contact.normal.y > 0.5f)
+            {
+                var surf = contact.collider.GetComponent<EnemyJumpStompSurface2D>()
+                           ?? contact.collider.GetComponentInParent<EnemyJumpStompSurface2D>();
+
+                if (surf == null) continue;
+
+                // optional damage on head-jump (currently 0 for you, so no damage)
+                var hp = surf.GetHealth();
+                if (hp && surf.headJumpDamage > 0)
+                {
+                    hp.TakeHit(surf.headJumpDamage, Vector2.zero);
+                }
+
+                // bounce up
+                float bounce = Mathf.Max(surf.headJumpBounceVelocity, body.velocity.y);
+                body.velocity = new Vector2(body.velocity.x, bounce);
+
+                isJumping = true;
+                amountofJumps = 1;
+
+                break;
+            }
+        }
     }
+
+
 
     // Handle Jump and double jump
     void Jump()

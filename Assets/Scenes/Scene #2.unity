@@ -78674,16 +78674,16 @@ MonoBehaviour:
   maxPlacementTries: 8
   entries:
   - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
-    minCount: 3
-    maxCount: 6
+    minCount: 1
+    maxCount: 2
     spawnPoints: []
     localAreas:
     - {fileID: 1041794255}
     localAreaWeights: []
     clustered: 1
-    clusterSizeMin: 3
-    clusterSizeMax: 6
-    clusterRadius: 1.5
+    clusterSizeMin: 1
+    clusterSizeMax: 2
+    clusterRadius: 3
   - prefab: {fileID: 9158730189008051440, guid: e15f44fcb4fb7e9428c90cd303c2a259, type: 3}
     minCount: 1
     maxCount: 1
@@ -78696,16 +78696,16 @@ MonoBehaviour:
     clusterSizeMax: 1
     clusterRadius: 0.7
   - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
-    minCount: 2
-    maxCount: 3
+    minCount: 1
+    maxCount: 2
     spawnPoints: []
     localAreas:
     - {fileID: 1569283252}
     localAreaWeights: []
     clustered: 1
-    clusterSizeMin: 2
-    clusterSizeMax: 3
-    clusterRadius: 1.5
+    clusterSizeMin: 1
+    clusterSizeMax: 2
+    clusterRadius: 2
   dayMult: 1
   twilightMult: 1
   nightMult: 1

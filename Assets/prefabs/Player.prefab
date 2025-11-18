@@ -137,7 +137,7 @@ Transform:
   m_GameObject: {fileID: 727345795898887544}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 1, z: 0}
+  m_LocalPosition: {x: -14.101836, y: 7.743, z: 0.13727522}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -179,10 +179,12 @@ MonoBehaviour:
   groundPoundHitMask:
     serializedVersion: 2
     m_Bits: 64
-  poundHitBoxSize: {x: 1.2, y: 0.5}
+  poundHitBoxSize: {x: 0.6, y: 0.5}
   poundHitBoxOffsetY: 0.2
   groundPoundDamage: 1
   poundKnockback: 4
+  useBoxcastGrounding: 1
+  useColliderCastGrounding: 0
   sprite: {fileID: 9124096902029822363}
   rayDist: 0.4
   baseSpeed: 3
@@ -192,8 +194,9 @@ MonoBehaviour:
   groundPoundPower: -8
   groundDecay: 0.2
   WallJumpPowerHeight: 4
-  spawnPoint: {x: -1, y: 0.5}
-  floorBoxHeight: -3
+  respawnPoint: {fileID: 0}
+  fallbackSpawn: {x: -1, y: 0.5}
+  floorBoxHeight: -15
   maxHealth: 3
   health: 3
   maxLives: 3
