@@ -78639,7 +78639,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1999822279}
   - component: {fileID: 1999822278}
-  - component: {fileID: 1999822280}
   m_Layer: 0
   m_Name: Spawner_S2
   m_TagString: Untagged
@@ -78675,16 +78674,38 @@ MonoBehaviour:
   maxPlacementTries: 8
   entries:
   - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
-    minCount: 2
-    maxCount: 4
+    minCount: 1
+    maxCount: 2
     spawnPoints: []
     localAreas:
     - {fileID: 1041794255}
     localAreaWeights: []
     clustered: 1
-    clusterSizeMin: 3
-    clusterSizeMax: 6
-    clusterRadius: 1.5
+    clusterSizeMin: 1
+    clusterSizeMax: 2
+    clusterRadius: 3
+  - prefab: {fileID: 9158730189008051440, guid: e15f44fcb4fb7e9428c90cd303c2a259, type: 3}
+    minCount: 1
+    maxCount: 1
+    spawnPoints: []
+    localAreas:
+    - {fileID: 664446300}
+    localAreaWeights: []
+    clustered: 0
+    clusterSizeMin: 1
+    clusterSizeMax: 1
+    clusterRadius: 0.7
+  - prefab: {fileID: 707316289434211993, guid: 563907b9311d2ac4da05fdd497cb5817, type: 3}
+    minCount: 1
+    maxCount: 2
+    spawnPoints: []
+    localAreas:
+    - {fileID: 1569283252}
+    localAreaWeights: []
+    clustered: 1
+    clusterSizeMin: 1
+    clusterSizeMax: 2
+    clusterRadius: 2
   dayMult: 1
   twilightMult: 1
   nightMult: 1
@@ -78706,25 +78727,6 @@ Transform:
   - {fileID: 664446301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1999822280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1999822277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7d789bebf41faf40a49ee47cce553e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pointA: 0
-  pointB: 0
-  speed: 0
-  damage: 1
-  pushStrength: 1
-  player: {fileID: 1535529869}
-  health: 1
 --- !u!1 &2005448174
 GameObject:
   m_ObjectHideFlags: 0

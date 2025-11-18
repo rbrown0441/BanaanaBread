@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 3633058195912152588}
   - component: {fileID: 2325352791050594230}
   - component: {fileID: 5759874866707295479}
+  - component: {fileID: 1742386473489694962}
   m_Layer: 6
   m_Name: GolemEnemy 1
   m_TagString: Untagged
@@ -294,10 +295,10 @@ MonoBehaviour:
   spawnPoint: {x: 0, y: 0}
   sightRadius: 3.5
   attackRange: 1.5
-  speed: 0.5
+  speed: 0.6
   damage: 2
   pushStrength: 6
-  health: 4
+  health: 5
   player: {fileID: 727345795898887544, guid: 4654d67e2c0efdc4dae23d690c7f3957, type: 3}
   animator: {fileID: 7323043072395320276}
   attackArea: {fileID: 8912958867698488210}
@@ -324,8 +325,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd3a6358269d1f4d993f260e89738b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 4
+  maxHp: 5
   destroyOnDeath: 1
+  deathDestroyDelay: 0.25
+  flashOnDeath: 1
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDied:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1742386473489694962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8445942365222322962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c1bc177d190b7468a46dcdc839a311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stompBounceVelocity: 4
+  stompDamage: 1
+  headJumpBounceVelocity: 4
+  headJumpDamage: 0
+  healthOverride: {fileID: 0}
 --- !u!1 &8912958867698488210
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,8 +379,8 @@ Transform:
   m_GameObject: {fileID: 8912958867698488210}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0042, y: -0.87, z: 0}
-  m_LocalScale: {x: 2.4325, y: 1, z: 1}
+  m_LocalPosition: {x: 0.977, y: -0.48, z: 0}
+  m_LocalScale: {x: 1.3700709, y: 2.4430134, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8649506270623431153}
